@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Cirrascale Cloud Services Blog</title>
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi</h1>
-    		</div>
-		</div>
-		<footer>
-    		<ul>
-        		<li><a href="mailto:info@cirrascale.com">email</a></li>
-        		<li><a href="https://github.com/cirrascalecloudservices">github.com/cirrascalecloudservices</a></li>
-			</ul>
-		</footer>
-	</body>
-</html>
+---
+layout: default
+title: 
+hide_twitter_card: true
+---
+<h3>Posts</h3>
+<ul>
+  {% for post in site.posts %}
+  <li>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
