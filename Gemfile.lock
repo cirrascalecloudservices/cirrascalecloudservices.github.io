@@ -243,7 +243,13 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll-avatar
   jekyll-feed (~> 0.6)
+  jekyll-gist
+  jekyll-paginate
+  jekyll-relative-links
+  jekyll-seo-tag
+  jekyll-sitemap
   minima (~> 2.0)
   tzinfo-data
 
