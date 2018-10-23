@@ -1,14 +1,17 @@
 ---
 layout: post
-title:  "DL Workflow Part2 - Local Experiment"
+title:  "DL Workflow Part2 - Local Experiments"
 date:   2018-10-21 09:35:23 -0700
 categories: dl_workflow
-published: false
+published: true
 ---
 
 # Goals
-- Create CIFAR 10 image classification experiment
-- 
+- Create CIFAR 10 and 100 image classification datasets
+- Training of CIFAR datasets using resnet50_v2 with Tensorboard output
+    - mxnet
+    - tensorflow
+    - pytorch
 
 # DataSets Folder
 
@@ -32,20 +35,43 @@ tar -xzvf cifar-10-python.tar.gz
 
 # CIFAR 100 Dataset
 
+The following commands will download, extract images, and create a mxnet reocordio database for the cifar 100 dataset.
+
 {% highlight bash %}
 mkdir -p /mnt/datasets/cifar100
 cd /mnt/datasets/cifar100
 wget https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz
 tar -xzvf cifar-100-python.tar.gz
 python cifar100_record.py
-python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label --resize 256 cifar_mxnet_train.lst  ./
-python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label --resize 256 cifar_mxnet_test.lst   ./
+python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label cifar_mxnet_train.lst  ./
+python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label cifar_mxnet_test.lst   ./
 {% endhighlight %}
 
-# CIFAR 100 Train
+| File                  | Size Kb  | Note                         |
+| --------------------- |----------| ---------------------------- |
+| cifar_mxnet_test.idx  | 128      | Index file for test set      |
+| cifar_mxnet_test.lst  | 799      | Test Set File list           |
+| cifar_mxnet_test.rec  | 13000    | RecordIO Database            |
+
+| File                   | Size Kb  | Note                         |
+| ---------------------- |----------| ---------------------------- |
+| cifar_mxnet_train.idx  | 714      | Index file for train set     |
+| cifar_mxnet_train.lst  | 4100     | Train Set File list          |
+| cifar_mxnet_train.rec  | 64000    | RecordIO Database            |
+
+## CIFAR 100 Training using mxnet
 
 Note: set num-gpus and batch-size arguments to match your server
 
 {% highlight bash %}
-python3 cifar100_mxnet.py --num-gpus 8 --batch-size=64
+rm -fr logs; rm -fr output; rm -fr params; rm -f scalar_dict.json; python3 cifar100_mxnet.py --batch-size=64 --num-gpus 8 
+sudo tensorboard --logdir=./logs --host=XXX.XXX.XXX.XXX --port=8888
 {% endhighlight %}
+
+### Tensorboard
+
+You can observe the progress of the training runs in tensorboard.
+The goal is not to create an expressive model but to confirm that the enviroments are online.
+
+![image-title-here](/assets/images/cifar100_mxnet_tensorboard_training.jpg){:class="img-responsive"}
+![image-title-here](/assets/images/cifar100_mxnet_tensorboard_images.jpg){:class="img-responsive"}
