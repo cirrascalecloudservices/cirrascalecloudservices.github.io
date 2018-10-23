@@ -103,7 +103,9 @@ sudo pip3 install scikit-image
 sudo pip3 install opencv-python
 sudo pip3 install matplotlib
 sudo pip3 install pandas
+sudo pip3 install mxnet-cu90
 sudo pip3 install mxnet
+sudo pip3 install mxboard
 sudo pip3 install keras
 sudo pip3 install torchvision
 #if you have an nvidia gpu
