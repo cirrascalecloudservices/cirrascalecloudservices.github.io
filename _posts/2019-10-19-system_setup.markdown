@@ -105,6 +105,7 @@ sudo pip3 install matplotlib
 sudo pip3 install pandas
 sudo pip3 install mxnet-cu90
 sudo pip3 install mxnet
+sudo pip3 install gluoncv
 sudo pip3 install mxboard
 sudo pip3 install keras
 sudo pip3 install torchvision
@@ -171,10 +172,19 @@ echo "library(\"keras\")" | sudo R --no-save
 
 Everything looks good. Time to light the fires!
 
-# Using Cloud-init on Cirrascale Cloud Services
+# Using Cloud-init on Cirrascale Baremetal Servers
 
-At Cirrascale we love baremetal and don't like repeating ourselves.
+At Cirrascale we love baremetal. Cloud-init handles configuring systems for our end users.
 
-Cloud-init handles configuring systems for our users.
+[Cloud Init Documentation]([https://cloudinit.readthedocs.io/en/latest/ )
 
-https://cloudinit.readthedocs.io/en/latest/ 
+![image-title-here](/assets/images/maps_provision.jpg){:class="img-responsive"}
+
+Required System Setup Items:
+- SSH Public Key
+- Hashed mkpasswd system password
+- Cloud Init script
+
+You simply enter three pieces of information and a new baremetal system will be installed and configured with all of your software!
+
+[Contact Us Today](mailto:info@cirrascale.com)
