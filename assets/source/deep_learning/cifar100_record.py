@@ -28,8 +28,10 @@ if __name__ == '__main__':
     #loop over the test and train pickled dictionaries
     for dictname in ["test", "train"]:
         dictdata = unpickle( os.path.join(options.dir, dictname))
+        datalen = len(dictdata['filenames'])
+        print (dictname, datalen )
         mxnetlist = open('cifar_mxnet_{}.lst'.format(dictname),"w")
-        for i in range (0,10000,1) :
+        for i in range (0,datalen,1) :
             coarseindex = dictdata['coarse_labels'][i]
             fineindex = dictdata['fine_labels'][i]
             coarsedir = coarselabels[dictdata['coarse_labels'][coarseindex]]
