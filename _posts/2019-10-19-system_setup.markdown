@@ -56,17 +56,17 @@ sudo apt-get install -y libopenblas-base r-base
 sudo reboot now
 {% endhighlight %}
 
-## cuda 9.0 + cudnn 7.0
+## cuda 9.0 + cudnn 7.3
 {% highlight bash %}
-wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
-chmod +x cuda_9.0.176_384.81_linux-run
-sudo ./cuda_9.0.176_384.81_linux-run --silent --driver --samples --toolkit
+wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cudnn-9.0-linux-x64-v7.3.0.29.solitairetheme8
+chmod +x cudnn-9.0-linux-x64-v7.3.0.29.solitairetheme8
+sudo ./cudnn-9.0-linux-x64-v7.3.0.29.solitairetheme8 --silent --driver --samples --toolkit
 echo "/usr/local/cuda-9.0/lib64" | sudo tee /etc/ld.so.conf.d/cuda.conf
+echo "/usr/local/cuda-9.0/extras/CUPTI/lib64" | sudo tee /etc/ld.so.conf.d/cupti.conf
 sudo ldconfig
 
 #cudnn requires an account and manual download from https://developer.nvidia.com
-#cudnn-9.0-linux-x64-v7.solitairetheme8
-tar -xvf cudnn-9.0-linux-x64-v7.solitairetheme8
+tar -xvf cudnn-9.0-linux-x64-v7.3.0.29.solitairetheme8
 sudo cp cuda/include/cudnn.h /usr/local/cuda-9.0/include
 sudo cp cuda/lib64/libcudnn* /usr/local/cuda-9.0/lib64
 sudo chmod a+r /usr/local/cuda-9.0/include/cudnn.h /usr/local/cuda-9.0/lib64/libcudnn*
@@ -87,7 +87,7 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.li
 {% endhighlight %}
 
 ## docker-ce and nvidia-docker
-{% highlight bash %}                                                                                    
+{% highlight bash %}
 sudo apt-get update
 sudo apt-get install -y nvidia-docker2
 sudo usermod -aG docker $USER
@@ -110,12 +110,16 @@ sudo pip3 install mxboard
 sudo pip3 install keras
 sudo pip3 install torchvision
 #if you have an nvidia gpu
+sudo pip3 install tf-sentencepiece
 sudo pip3 install tensorflow-gpu
 sudo pip3 install tensorflow
 sudo pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist nvidia-dali
 #if running virtualized without AVX
 #sudo pip3 install tensorflow==1.5
 {% endhighlight %}
+
+Note: taking HEAD versions of all of the prebuilt packages frequently has broken dependencies.  
+pip3 install --upgrade pip and upgrading of packages is a typical operation when setting up a system for development.
 
 ## R libraries
 {% highlight bash %}
