@@ -7,13 +7,14 @@ published: true
 ---
 
 # Goals
-- Create CIFAR 10 and 100 image classification datasets
-- Training of CIFAR datasets using resnet50_v2 with Tensorboard output
-    - mxnet
-    - tensorflow
-    - pytorch
+- Create CIFAR 100 image classification dataset
+  - Data is exported to mxnet recordio
+- NVIDIA DALI data pipeline loading of recordio
+- Training CIFAR 100 with Tensorboard output under various frameworks
+    - mxnet - Resnet50_v2
+    - keras - tensorflow - simple custom CNN
 
-# DataSets Folder
+# Create /mnt/datasets
 
 {% highlight bash %}
 sudo groupadd datasets
@@ -24,18 +25,14 @@ sudo chmod -R g+w /mnt/datasets/
 exit
 {% endhighlight %}
 
-# CIFAR 10 Dataset
-
-{% highlight bash %}
-mkdir -p /mnt/datasets/cifar10
-cd /mnt/datasets/cifar10
-wget https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-tar -xzvf cifar-10-python.tar.gz
-{% endhighlight %}
-
 # CIFAR 100 Dataset
 
-The following commands will download, extract images, and create a mxnet reocordio database for the cifar 100 dataset.
+- 60000 32x32 colour images in 100 classes, with 600 images per class. 
+- 50000 training
+- 10000 test images. 
+- 238MB extracted png images
+
+<a href='{{ base }}/assets/source/deep_learning/cifar100_record.py'>Download cifar100_record.py</a>
 
 {% highlight bash %}
 mkdir -p /mnt/datasets/cifar100
@@ -43,35 +40,57 @@ cd /mnt/datasets/cifar100
 wget https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz
 tar -xzvf cifar-100-python.tar.gz
 python cifar100_record.py
-python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label cifar_mxnet_train.lst  ./
-python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --pack-label cifar_mxnet_test.lst   ./
+python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --no-shuffle --quality 9 --encoding .png --pack-label cifar_mxnet_train.lst  ./
+python3 /usr/local/lib/python3.5/dist-packages/mxnet/tools/im2rec.py --no-shuffle --quality 9 --encoding .png --pack-label cifar_mxnet_test.lst   ./
 {% endhighlight %}
 
-| File                  | Size Kb  | Note                         |
+Recordio database sizes
+
+| File                  | ~Size Kb  | Note                         |
 | --------------------- |----------| ---------------------------- |
 | cifar_mxnet_test.idx  | 128      | Index file for test set      |
 | cifar_mxnet_test.lst  | 799      | Test Set File list           |
-| cifar_mxnet_test.rec  | 13000    | RecordIO Database            |
-
-| File                   | Size Kb  | Note                         |
-| ---------------------- |----------| ---------------------------- |
+| cifar_mxnet_test.rec  | 22000    | RecordIO Database            |
 | cifar_mxnet_train.idx  | 714      | Index file for train set     |
 | cifar_mxnet_train.lst  | 4100     | Train Set File list          |
-| cifar_mxnet_train.rec  | 64000    | RecordIO Database            |
+| cifar_mxnet_train.rec  | 109000   | RecordIO Database            |
 
-## CIFAR 100 Training using mxnet
+# Training CIFAR 100 using mxnet
 
-Note: set num-gpus and batch-size arguments to match your server
+<a href='{{ base }}/assets/source/deep_learning/cifar100_mxnet.py'>Download cifar100_mxnet.py</a>
 
 {% highlight bash %}
-rm -fr logs; rm -fr output; rm -fr params; rm -f scalar_dict.json; python3 cifar100_mxnet.py --batch-size=64 --num-gpus 8 
+rm -fr logs; rm -fr params; rm -f scalar_dict.json; python3 cifar100_mxnet.py --batch-size=64 --num-gpus 8 
 sudo tensorboard --logdir=./logs --host=XXX.XXX.XXX.XXX --port=8888
 {% endhighlight %}
 
-### Tensorboard
+**Note**: set num-gpus, batch-size, and ip arguments to match your server
+
+## Tensorboard via mxboard
 
 You can observe the progress of the training runs in tensorboard.
-The goal is not to create an expressive model but to confirm that the enviroments are online.
 
-![image-title-here](/assets/images/cifar100_mxnet_tensorboard_training.jpg){:class="img-responsive"}
-![image-title-here](/assets/images/cifar100_mxnet_tensorboard_images.jpg){:class="img-responsive"}
+The goal is not to create an expressive model but to confirm that the system is functional.
+
+![mxnet Training Progress](/assets/images/cifar100_mxnet_tensorboard_training.jpg){:class="img-responsive"}
+![mxnet Images](/assets/images/cifar100_mxnet_tensorboard_images.jpg){:class="img-responsive"}
+
+# Training CIFAR 100 using keras and tensorflow
+
+<a href='{{ base }}/assets/source/deep_learning/cifar100_keras_tf.py'>Download cifar100_keras_tf.py</a>
+
+{% highlight bash %}
+rm -fr logs; python3 cifar100_keras_tf.py --batch-size=64 
+sudo tensorboard --logdir=./logs --host=XXX.XXX.XXX.XXX --port=8888
+{% endhighlight %}
+
+**Note**: set batch-size and ip to match your server configuration
+
+## Tensorboard via keras callback
+
+You can observe the progress of the training runs in tensorboard.
+
+The goal is not to create an expressive model but to confirm that the system is functional.
+
+![Keras Compute Graph](/assets/images/cifar100_keras_graph.jpg){:class="img-responsive"}
+![Keras Training Progress](/assets/images/cifar100_keras_training.jpg){:class="img-responsive"}
