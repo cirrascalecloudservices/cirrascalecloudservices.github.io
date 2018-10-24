@@ -13,6 +13,7 @@ published: true
 - Training CIFAR 100 with Tensorboard output under various frameworks
     - mxnet - Resnet50_v2
     - keras - tensorflow - simple custom CNN
+- Confirming that the libraries installed in Part 1 are functional
 
 # Create /mnt/datasets
 
@@ -94,3 +95,15 @@ The goal is not to create an expressive model but to confirm that the system is 
 
 ![Keras Compute Graph](/assets/images/cifar100_keras_graph.jpg){:class="img-responsive"}
 ![Keras Training Progress](/assets/images/cifar100_keras_training.jpg){:class="img-responsive"}
+
+# Next Steps
+
+The system installation and some basic deep learning is complete. 
+A good idea at this point would be to backup the system to lock in all of the libraries and dependencies. 
+
+Servers at cirrascale can be configured in any redundant storage configuration you desire.
+Moreover, we can provide access to remote storage and provision your system with it mounted.
+
+We are happy to help you craft a backup solution that meets your specific requirements.
+
+[Contact Us Today](mailto:info@cirrascale.com)
