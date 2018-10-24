@@ -3,7 +3,7 @@ layout: post
 title:  "DL Workflow Part2 - Local Experiments"
 date:   2018-10-21 09:35:23 -0700
 categories: dl_workflow
-published: true
+published: false
 ---
 
 # Goals
