@@ -3,7 +3,7 @@ layout: post
 title:  "DL Workflow Part1 - Environment Setup"
 date:   2018-10-19 09:35:23 -0700
 categories: dl_workflow
-published: false
+published: true
 ---
 
 # Goals
