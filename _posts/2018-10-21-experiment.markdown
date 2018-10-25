@@ -106,4 +106,6 @@ Moreover, we can provide access to remote storage and provision your system with
 
 We are happy to help you craft a backup solution that meets your specific requirements.
 
+Subsequent posts will discuss alternatives for software dependency managemnt solutions like containerization.
+
 [Contact Us Today](mailto:info@cirrascale.com)

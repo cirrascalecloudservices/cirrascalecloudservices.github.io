@@ -4,3 +4,11 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 ---
+<div class="blog-index">
+{% for post in site.posts %}
+{% if post.title == 'Scalable Deep Learning at Cirrascale - Blog Series' %}
+  {% assign content = post.content %}
+  {% include post_detail.html %}
+{% endif %}
+{% endfor %}
+</div>
