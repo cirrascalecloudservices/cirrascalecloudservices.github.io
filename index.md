@@ -4,11 +4,15 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 ---
-<div class="blog-index">
-{% for post in site.posts %}
-{% if post.title == 'Scalable Deep Learning at Cirrascale - Blog Series' %}
-  {% assign content = post.content %}
-  {% include post_detail.html %}
-{% endif %}
-{% endfor %}
+
+<div class="post-categories">
+  {% if post %}
+    {% assign categories = post.categories %}
+  {% else %}
+    {% assign categories = page.categories %}
+  {% endif %}
+  {% for category in categories %}
+  <a href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
+  {% unless forloop.last %}&nbsp;{% endunless %}
+  {% endfor %}
 </div>

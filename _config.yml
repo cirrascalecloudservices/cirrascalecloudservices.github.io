@@ -13,6 +13,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 theme: minima
+highlighter: rouge
 plugins:
   - jekyll-feed
   - jekyll-avatar
